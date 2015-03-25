@@ -34,6 +34,9 @@ reg [7:0] addr_cos = 255;
 reg [1:0] part = 0;
 reg dir = 0;
 
+initial
+	$readmemb("sampled_sinus.txt",memory);
+
 always @(posedge clk)
 begin
 	if (rst) addr_sin <= 0;
@@ -63,16 +66,16 @@ always @(posedge clk)
 begin
 	if (rst) dout_reg_sin <= 0;
 	else
-		if (en && (part == 0) && (part == 1)) dout_reg_sin <= memory[addr_sin];
-		else if (en && (part == 2) && (part == 3)) dout_reg_sin <= ~memory[addr_sin] + 1;
+		if (en && ((part == 0) || (part == 1))) dout_reg_sin <= memory[addr_sin];
+		else if (en && ((part == 2) || (part == 3))) dout_reg_sin <= ~memory[addr_sin] + 1;
 end
 
 always @(posedge clk)
 begin
 	if(rst) dout_reg_cos <= 0;
 	else
-		if(en && (part == 0) && (part == 3)) dout_reg_cos <= memory[addr_cos];
-		else if (en && (part == 1) && (part == 2)) dout_reg_cos <= ~memory[addr_cos] + 1;
+		if(en && ((part == 0) || (part == 3))) dout_reg_cos <= memory[addr_cos];
+		else if (en && ((part == 1) || (part == 2))) dout_reg_cos <= ~memory[addr_cos] + 1;
 end
 
 assign sampled_sine = dout_reg_sin;
