@@ -48,7 +48,7 @@ begin
 			if (1 == data_in[0])  reg_tmp_cos <= cosine_in;
 			if (0 == data_in[0]) reg_tmp_cos <= ~cosine_in + 1;
 			if (1 == data_in[1]) reg_tmp_sin <= sine_in;
-			if (0 == data_in[0]) reg_tmp_sin <= ~sine_in + 1;
+			if (0 == data_in[1]) reg_tmp_sin <= ~sine_in + 1;
 		end
 end
 	
