@@ -26,8 +26,9 @@ module top_level(
 	 input elojel_sin,
 	 input elojel_cos,
 	 
-    output [15:0] mixed_signal        
-    
+    output [15:0] mixed_signal,
+	 output [15:0] sampled_sine_test,
+	 output [15:0] sampled_cosine_test
 );
 
 //System Freqency
@@ -43,32 +44,36 @@ main_cntr_(
 );
 
 
-/*
-wire adat_be_S;
 
+
+/*
 Random_Gen Random (
 	.clock(clk),
 	.reset(rst),
 	.rnd(adat_be)
 );
-
+*/
+wire adat_be_S;
+wire data_change;
 Adat_Gen Adat (
 	.clock(clk),
 	.reset(rst),
-	.adat_ki(adat_be_S)
+	.adat_ki(adat_be_S),
+	.data_change(data_change),
+	.enable_cntr(en_clk)
 );
 
-wire elojel_sin;
-wire elojel_cos;
+wire [1:0] elojel_sin_cos;
 
 S2P sor2par(
 	.clock(clk),
 	.reset(rst),
 	.adat_be_S(adat_be_S),
-	.elojel_sin(elojel_sin),
-	.elojel_cos(elojel_cos)
+	.elojel_sin_cos(elojel_sin_cos),
+	.data_change(data_change)
 );
 
+/*
 wire modulated_signal;
 wire filtered_modulated_signal;
 
@@ -94,13 +99,20 @@ sin_cos_lut sin_cos_lut_(
 
 //Mixing the signals
 wire [15:0] mixed_signal;
+wire [15:0] sampled_sine_out;
+wire [15:0] sampled_cosine_out;
 mixer mixer_(
 	.clk(clk),
 	.rst(rst),
-	.data_in({elojel_sin,elojel_cos}),
+	.data_in(elojel_sin_cos),
 	.sine_in(sampled_sine),
 	.cosine_in(sampled_cosine),
-	.signal_out(mixed_signal)
+	.signal_out(mixed_signal),
+	.sampled_sine_out(sampled_sine_out),
+	.sampled_cosine_out(sampled_cosine_out)
 );
+
+assign sampled_sine_test = sampled_sine_out;
+assign sampled_cosine_test = sampled_cosine_out;
 
 endmodule

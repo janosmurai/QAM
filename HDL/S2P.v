@@ -29,12 +29,16 @@ module S2P(
 );
 
 reg  data_change_cntr;
+reg old_data_change_cntr;
+reg [1:0] parallel_reg_new;
+reg [1:0] parallel_reg_old;
 always @(posedge clock)
 begin
 if(reset) begin  data_change_cntr<=0; end
 else if(data_change)
 			begin
 			data_change_cntr<=data_change_cntr+1;
+			old_data_change_cntr <= data_change_cntr;
 			end
 end
 
@@ -50,6 +54,18 @@ else
 		end
 end
 
-assign  elojel_sin_cos = (data_change_cntr==1)? parallel_reg:elojel_sin_cos;
+always @(posedge clock)
+begin
+	if(reset)
+	begin
+		parallel_reg_new <= 0;
+	end
+	else if((old_data_change_cntr==1) && (data_change_cntr == 0))
+	begin
+		parallel_reg_new <= parallel_reg;
+	end
+end
+
+assign  elojel_sin_cos = parallel_reg_new;
 
 endmodule

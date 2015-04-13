@@ -37,6 +37,7 @@ reg dir = 0;
 initial
 	$readmemb("sampled_sinus.txt",memory);
 
+//Itt meg lesz valami idozitesi problemo
 always @(posedge clk)
 begin
 	if (rst) addr_sin <= 0;
