@@ -34,7 +34,7 @@ module top_level(
 wire en_clk;
 
 main_cntr 
-#(.freq_prescale(2))
+#(.freq_prescale(0))
 main_cntr_(
 
 	.clk(clk),
@@ -98,7 +98,7 @@ mixer mixer_(
 	.clk(clk),
 	.rst(rst),
 	.data_in({elojel_sin,elojel_cos}),
-	.sine_in(sample_sine),
+	.sine_in(sampled_sine),
 	.cosine_in(sampled_cosine),
 	.signal_out(mixed_signal)
 );
