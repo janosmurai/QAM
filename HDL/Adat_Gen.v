@@ -62,6 +62,10 @@ else if(enable_cntr_rise)
 end
 
 assign adat_ki=shift_reg[27];
+<<<<<<< HEAD
 assign data_change =(cntr==512) ? 1:0;
+=======
+assign data_change =(cntr==1023) ? 1:0;
+>>>>>>> origin/master
 
 endmodule
