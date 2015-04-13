@@ -18,11 +18,11 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module main_cntr(
+module main_cntr
+	#(parameter freq_prescale = 0)
+	(
     input clk,
     input rst,
-	 input fpp,
-	 input fmm,
     output en_clk
     );
 
@@ -32,18 +32,9 @@ reg [15:0] cntr_reg;
 always @ (posedge clk)
 begin
 	if(rst) cntr_reg <= 0;
-	else cntr_reg <= cntr_reg + 1;
+	else cntr_reg <= cntr_reg + 1; 
 end
 
-reg [3:0] freq_select;
-//Set the correct frequncy
-always @ (posedge clk)
-begin
-	if(rst) freq_select <= 15;
-	else if(fpp && (freq_select < 15)) freq_select <= freq_select + 1;
-	else if(fmm && (freq_select > 0)) freq_select <= freq_select - 1;
-end
-
-assign en_clk = cntr_reg[freq_select];
+assign en_clk = cntr_reg[freq_prescale];
 
 endmodule

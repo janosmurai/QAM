@@ -21,23 +21,29 @@
 module top_level(
     input clk,
     input rst,
-	 input fpp,
-	 input fmm,
-    output cs        
+	 
+	 //test signals
+	 input elojel_sin,
+	 input elojel_cos,
+	 
+    output [15:0] mixed_signal        
     
 );
 
 //System Freqency
 wire en_clk;
 
-main_cntr main_cntr_(
+main_cntr 
+#(.freq_prescale(2))
+main_cntr_(
+
 	.clk(clk),
 	.rst(rst),
-	.fpp(fpp),
-	.fmm(fmm),
 	.en_clk(en_clk)
 );
 
+
+/*
 wire adat_be_S;
 
 Random_Gen Random (
@@ -63,8 +69,6 @@ S2P sor2par(
 	.elojel_cos(elojel_cos)
 );
 
-/*a lnyegi rsz*/
-
 wire modulated_signal;
 wire filtered_modulated_signal;
 
@@ -74,7 +78,7 @@ digit_BPS_filter filter(
 	.sgl_in(modulated_signal),
 	.sgl_out(filtered_modulated_signal)
 );
-
+*/
 
 // Sine and Cosine LUT in block RAM
 wire [15:0] sampled_sine;
