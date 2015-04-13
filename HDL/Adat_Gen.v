@@ -21,15 +21,22 @@
 module Adat_Gen(
     input clock,
     input reset,
+	 input enable_cntr,
     output adat_ki,
 	 output data_change,
 	 
 	 output [7:0]shift_reg
     );
-reg [3:0] cntr; /*ird at szimulacio utan 19:0 ra*/
+reg [9:0] cntr; /*ird at szimulacio utan 19:0 ra*/
 reg [27:0] shift_reg;
-
-
+wire enable_cntr_rise;
+reg old_enable_cntr;
+always @ (posedge clock)
+begin
+if(rst)enable_cntr<=0;
+old_enable_cntr<=enable_cntr;
+end
+assign enable_cntr_rise=!old_enable_cntr&&enable_cntr;
 always @ (posedge clock)
 begin
 if(reset)begin
@@ -37,18 +44,19 @@ if(reset)begin
 			shift_reg<=28'b0110_1100_1100_0001_0101_0101_0101;
 			
 			end
-else
-	begin
-	if(cntr==7)
+else if(enable_cntr_rise)
 		begin
-		cntr<=cntr+1;
-		shift_reg<={shift_reg[26:0],shift_reg[27]};
+			if(cntr==1023)
+			begin
+			cntr<=cntr+1;
+			shift_reg<={shift_reg[26:0],shift_reg[27]};
+			end
+		else 
+			begin
+			cntr<=cntr+1;
+			end
+			
 		end
-	else 
-		begin
-		cntr<=cntr+1;
-		end
-	end
 
 end
 
