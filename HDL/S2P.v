@@ -23,34 +23,44 @@ module S2P(
     input reset,
     input adat_be_S,
 	 input data_change,
-    output  [1:0]elojel_sin_cos,
-	 output  [1:0 ]parallel_reg,
+	 input data_ready,
+	 
+    output  [1:0] elojel_sin_cos,
+	 output  [1:0] parallel_reg,
 	 output data_change_cntr
 );
 
 reg  data_change_cntr;
 reg old_data_change_cntr;
 reg [1:0] parallel_reg_new;
-reg [1:0] parallel_reg_old;
+
 always @(posedge clock)
 begin
-if(reset) begin  data_change_cntr<=0; end
-else if(data_change)
+	if(reset)
+	begin
+		data_change_cntr<=0;
+		old_data_change_cntr <= 1;
+	end
+	else if(data_change)
 			begin
-			data_change_cntr<=data_change_cntr+1;
-			old_data_change_cntr <= data_change_cntr;
+			data_change_cntr <= data_change_cntr + 1;
 			end
+	else
+		old_data_change_cntr <= data_change_cntr;
 end
 
 reg [1:0] parallel_reg;
 always @ (posedge clock)
 begin
-if(reset) begin  parallel_reg<=0; end
+if(reset) 
+	begin 
+		parallel_reg<=0; 
+	end
 else
-	if(data_change)
+	if(data_ready)
 		begin
-			if(data_change_cntr==0)parallel_reg[0]<=adat_be_S;
-			else parallel_reg[1]<= adat_be_S;
+			if(data_change_cntr == 0) parallel_reg[0] <= adat_be_S;
+			else parallel_reg[1] <= adat_be_S;
 		end
 end
 

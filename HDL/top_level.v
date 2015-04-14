@@ -55,12 +55,14 @@ Random_Gen Random (
 */
 wire adat_be_S;
 wire data_change;
+wire data_ready;
 Adat_Gen Adat (
 	.clock(clk),
 	.reset(rst),
 	.adat_ki(adat_be_S),
 	.data_change(data_change),
-	.enable_cntr(en_clk)
+	.enable_cntr(en_clk),
+	.data_ready(data_ready)
 );
 
 wire [1:0] elojel_sin_cos;
@@ -70,7 +72,8 @@ S2P sor2par(
 	.reset(rst),
 	.adat_be_S(adat_be_S),
 	.elojel_sin_cos(elojel_sin_cos),
-	.data_change(data_change)
+	.data_change(data_change),
+	.data_ready(data_ready)
 );
 
 /*

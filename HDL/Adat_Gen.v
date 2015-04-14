@@ -24,6 +24,7 @@ module Adat_Gen(
 	 input enable_cntr,
     output adat_ki,
 	 output data_change,
+	 output data_ready,
 	 
 	 output [7:0]shift_reg
     );
@@ -62,10 +63,7 @@ else if(enable_cntr_rise)
 end
 
 assign adat_ki=shift_reg[27];
-<<<<<<< HEAD
 assign data_change =(cntr==512) ? 1:0;
-=======
-assign data_change =(cntr==1023) ? 1:0;
->>>>>>> origin/master
+assign data_ready = (cntr == 256);
 
 endmodule
