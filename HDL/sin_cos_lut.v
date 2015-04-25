@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    19:34:43 03/24/2015 
-// Design Name: 
-// Module Name:    sin_lut_block_ram 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module sin_cos_lut(
     input clk,
     input rst,
@@ -34,10 +16,15 @@ reg [7:0] addr_cos = 255;
 reg [1:0] part = 0;
 reg dir = 0;
 
+// Read data from file
 initial
 	$readmemb("sampled_sinus.txt",memory);
 
-//Itt meg lesz valami idozitesi problemo
+// For the better efficiency, only the first quarter of a sine stored in ROM.
+// The following is the adressing logic depending on wich timeqarter the sine in.
+// part: the qarter of the (co)sine
+// dir: Reading direction
+
 always @(posedge clk)
 begin
 	if (rst) addr_sin <= 0;
@@ -63,6 +50,8 @@ begin
 	end
 end
 
+// Set the sign bit for the sine
+
 always @(posedge clk)
 begin
 	if (rst) dout_reg_sin <= 0;
@@ -70,6 +59,8 @@ begin
 		if (en && ((part == 0) || (part == 1))) dout_reg_sin <= memory[addr_sin];
 		else if (en && ((part == 2) || (part == 3))) dout_reg_sin <= ~memory[addr_sin] + 1;
 end
+
+// Set the sing bit for the cosine
 
 always @(posedge clk)
 begin

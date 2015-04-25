@@ -1,8 +1,8 @@
-%%plot LUT out
-file_cos = fopen('c:\Users\VeszelyDr\QAM_1\cos_output.txt','r');
-file_sin = fopen('c:\Users\VeszelyDr\QAM_1\sin_output.txt','r');
-file_p_1 = fopen('c:\Users\VeszelyDr\QAM_1\parallel_1.txt','r');
-file_p_0 = fopen('c:\Users\VeszelyDr\QAM_1\parallel_0.txt','r');
+% Read data from file
+file_cos = fopen('c:\Users\murai\Documents\vik_bme_msc\logikai_tervezes\hazi_feladat\qam\\cos_output.txt','r');
+file_sin = fopen('c:\Users\murai\Documents\vik_bme_msc\logikai_tervezes\hazi_feladat\qam\\sin_output.txt','r');
+file_p_1 = fopen('c:\Users\murai\Documents\vik_bme_msc\logikai_tervezes\hazi_feladat\qam\\parallel_1.txt','r');
+file_p_0 = fopen('c:\Users\murai\Documents\vik_bme_msc\logikai_tervezes\hazi_feladat\qam\\parallel_0.txt','r');
 
 cos_lut = fscanf(file_cos,'%s');
 sin_lut = fscanf(file_sin,'%s');
@@ -12,11 +12,11 @@ parallel_0 = fscanf(file_p_0,'%s');
  cos_a(1:(length(cos_lut)/16),1:16) = 0;
  sin_a(1:(length(sin_lut)/16),1:16) = 0;
 
-
+% Binary to decimal conversion
 j = 1;
 for i = (1:16:length(cos_lut))
     for k = 1:16
-        cos_a(j,k) = str2num(cos_lut(i+k-1));     %ASCIFASZOM!!!!!!!!!!!!!!!!!! jah és a matlab egy fos
+        cos_a(j,k) = str2num(cos_lut(i+k-1));    
         sin_a(j,k) = str2num(sin_lut(i+k-1));
     end
     j = j + 1;
@@ -84,6 +84,7 @@ carry_s = 0;
      end
  end
  
+ % Plot the modulated signals
  t = 1:19990;
  
  figure(1);

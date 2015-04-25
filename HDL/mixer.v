@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    22:47:17 03/24/2015 
-// Design Name: 
-// Module Name:    mixer 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module mixer(
 	 input clk,
 	 input rst,
@@ -35,7 +17,7 @@ reg [15:0] reg_tmp_cos;
 	 
 //Mix the signal
 // Multiply the sine with:
-//			1 if data_in 1
+//			 1 if data_in 1
 //			-1 if data_in 0
 
 always @(posedge clk)
@@ -57,6 +39,6 @@ end
 assign sampled_sine_out = reg_tmp_sin;
 assign sampled_cosine_out = reg_tmp_cos;
 	
-assign signal_out = reg_tmp_cos + reg_tmp_sin;		//15 bit is enough, becouse sine and cosine can't be 1 at the same time.
+assign signal_out = reg_tmp_cos + reg_tmp_sin;		
 
 endmodule
