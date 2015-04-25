@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    09:04:26 09/23/2013 
-// Design Name: 
-// Module Name:    top_level 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module top_level(
     input  clk,
 	 input  rst,
@@ -32,6 +14,9 @@ module top_level(
 );
 
 
+
+
+
 //System Freqency
 wire en_clk;
 
@@ -44,11 +29,10 @@ main_cntr_(
 	.en_clk(en_clk)
 );
 
-
+//Serial data generation
 wire adat_be_S;
 wire data_change;
 wire data_ready;
-
 Adat_Gen Adat (
 	.clock(clk),
 	.reset(rst),
@@ -60,6 +44,7 @@ Adat_Gen Adat (
 
 wire [1:0] elojel_sin_cos;
 
+//Serial Parallel Conversion
 S2P sor2par(
 	.clock(clk),
 	.reset(rst),
@@ -69,6 +54,7 @@ S2P sor2par(
 	
 );
 assign parallel=elojel_sin_cos;
+
 
 // Sine and Cosine LUT in block RAM
 wire [15:0] sampled_sine;
@@ -83,7 +69,6 @@ sin_cos_lut sin_cos_lut_(
 );
 
 //Mixing the signals
-wire [15:0] mixed_signal;
 wire [15:0] sampled_sine_out;
 wire [15:0] sampled_cosine_out;
 mixer mixer_(
