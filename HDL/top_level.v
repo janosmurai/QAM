@@ -32,9 +32,6 @@ module top_level(
 );
 
 
-
-
-
 //System Freqency
 wire en_clk;
 
@@ -48,18 +45,10 @@ main_cntr_(
 );
 
 
-
-
-/*
-Random_Gen Random (
-	.clock(clk),
-	.reset(rst),
-	.rnd(adat_be)
-);
-*/
 wire adat_be_S;
 wire data_change;
 wire data_ready;
+
 Adat_Gen Adat (
 	.clock(clk),
 	.reset(rst),
@@ -80,17 +69,6 @@ S2P sor2par(
 	
 );
 assign parallel=elojel_sin_cos;
-/*
-wire modulated_signal;
-wire filtered_modulated_signal;
-
-digit_BPS_filter filter(
-	.clock(clk),
-	.reset(rst),
-	.sgl_in(modulated_signal),
-	.sgl_out(filtered_modulated_signal)
-);
-*/
 
 // Sine and Cosine LUT in block RAM
 wire [15:0] sampled_sine;
