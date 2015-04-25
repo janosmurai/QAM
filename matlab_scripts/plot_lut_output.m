@@ -1,12 +1,17 @@
 %%plot LUT out
-file_cos = fopen('c:\Users\murai\Documents\vik_bme_msc\logikai_tervezes\hazi_feladat\qam\cos_output.txt','r');
-file_sin = fopen('c:\Users\murai\Documents\vik_bme_msc\logikai_tervezes\hazi_feladat\qam\sin_output.txt','r');
+file_cos = fopen('c:\Users\VeszelyDr\QAM_1\cos_output.txt','r');
+file_sin = fopen('c:\Users\VeszelyDr\QAM_1\sin_output.txt','r');
+file_p_1 = fopen('c:\Users\VeszelyDr\QAM_1\parallel_1.txt','r');
+file_p_0 = fopen('c:\Users\VeszelyDr\QAM_1\parallel_0.txt','r');
 
 cos_lut = fscanf(file_cos,'%s');
 sin_lut = fscanf(file_sin,'%s');
+parallel_1 = fscanf(file_p_1,'%s');
+parallel_0 = fscanf(file_p_0,'%s');
 
  cos_a(1:(length(cos_lut)/16),1:16) = 0;
  sin_a(1:(length(sin_lut)/16),1:16) = 0;
+
 
 j = 1;
 for i = (1:16:length(cos_lut))
@@ -17,6 +22,14 @@ for i = (1:16:length(cos_lut))
     j = j + 1;
 end
 
+parallel_1_a(1:length(parallel_1))=0;
+parallel_0_a(1:length(parallel_0))=0;
+
+
+for i=(1:length(parallel_1))
+    parallel_1_a(i)=str2num(parallel_1(i));
+    parallel_0_a(i)=str2num(parallel_0(i));
+end
 
 cos_dec(1:length(cos_a)) = 0;
 sin_dec(1:length(sin_a)) = 0;
@@ -74,7 +87,13 @@ carry_s = 0;
  t = 1:19990;
  
  figure(1);
- plot(t,cos_dec);
- figure(2);
- plot(t,sin_dec);
+ plot(t,cos_dec,t,parallel_0_a);
+ axis([0 20000 -1.1 1.1])
  
+ figure(2);
+ plot(t,sin_dec,t,parallel_1_a);
+ axis([0 20000 -1.1 1.1])
+ 
+ figure(3);
+ plot(t,cos_dec+sin_dec);
+ axis([0 20000 -1.8 1.8])

@@ -19,17 +19,21 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module top_level(
-    input clk,
-    input rst,
+    input  clk,
+	 input  rst,
 	 
 	 //test signals
-	 input elojel_sin,
-	 input elojel_cos,
 	 
     output [15:0] mixed_signal,
 	 output [15:0] sampled_sine_test,
-	 output [15:0] sampled_cosine_test
+	 output [15:0] sampled_cosine_test,
+	 output [1:0] parallel
+
 );
+
+
+
+
 
 //System Freqency
 wire en_clk;
@@ -61,8 +65,8 @@ Adat_Gen Adat (
 	.reset(rst),
 	.adat_ki(adat_be_S),
 	.data_change(data_change),
-	.enable_cntr(en_clk),
-	.data_ready(data_ready)
+	.enable_cntr(en_clk)
+	
 );
 
 wire [1:0] elojel_sin_cos;
@@ -72,10 +76,10 @@ S2P sor2par(
 	.reset(rst),
 	.adat_be_S(adat_be_S),
 	.elojel_sin_cos(elojel_sin_cos),
-	.data_change(data_change),
-	.data_ready(data_ready)
+	.data_change(data_change)
+	
 );
-
+assign parallel=elojel_sin_cos;
 /*
 wire modulated_signal;
 wire filtered_modulated_signal;

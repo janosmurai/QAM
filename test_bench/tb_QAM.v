@@ -30,17 +30,33 @@ module tb_QAM;
 	// Outputs
 	
 
+
+//wire [27:0] shift_reg;
+
+//System Freqency
+wire en_clk;
+main_cntr 
+#(.freq_prescale(0))
+main_cntr_(
+
+	.clk(clk),
+	.rst(rst),
+	.en_clk(en_clk)
+);
+
+
+
 wire adat_be_S;
 wire data_change;
-wire [27:0] shift_reg;
-Adat_Gen Adat  (
+wire data_ready;
+Adat_Gen Adat (
 	.clock(clk),
 	.reset(rst),
 	.adat_ki(adat_be_S),
 	.data_change(data_change),
-	.shift_reg(shift_reg)
+	.enable_cntr(en_clk),
+	.data_ready(data_ready)
 );
-
 wire [1:0]elojel_sin_cos;
 wire [1:0]parallel_reg;
 wire data_change_cntr;
