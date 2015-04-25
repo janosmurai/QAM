@@ -20,8 +20,6 @@ if(reset)old_enable_cntr<=0;
 old_enable_cntr<=enable_cntr;
 end
 
-
-
 always @(posedge clock)
 begin
 	if(reset) enable_cntr_rise <= 0;
@@ -61,8 +59,6 @@ else if(enable_cntr_rise)
 
 end
 /***********************************************************/
-
-
 
 
 /***********************************************************/
